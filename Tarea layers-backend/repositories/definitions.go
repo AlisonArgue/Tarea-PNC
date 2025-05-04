@@ -9,4 +9,5 @@ type UserRepository interface {
 	GetById(id string) (entities.User, error)
 	Create(user entities.User) error
 	Update(id, name, email string) error
+	Delete(id string) error
 }

@@ -17,7 +17,9 @@ func main() {
 	userController := controllers.NewUserController(*userService)
 
 	r.HandleFunc("/users", userController.GetAllUsersHandler).Methods(http.MethodGet)
+	r.HandleFunc("/users", userController.CreateUserHandler).Methods(http.MethodPost)
 	r.HandleFunc("/users/{id}", userController.UpdateUserHandler).Methods(http.MethodPut)
+	r.HandleFunc("/users/{id}", userController.DeleteUserHandler).Methods(http.MethodDelete)
 	fmt.Println("Listening on port 8080")
 	http.ListenAndServe(":8080", r)
 

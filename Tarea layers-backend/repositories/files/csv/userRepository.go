@@ -121,7 +121,6 @@ func (u UserRepository) Update(id, name, email string) error {
 	if err != nil {
 		return err
 	}
-
 	found := false
 	for i, record := range records {
 		if i == 0 {
@@ -129,7 +128,6 @@ func (u UserRepository) Update(id, name, email string) error {
 		}
 		if record[0] == id {
 			updatedAt := time.Now().UTC().Format(time.RFC3339)
-
 			records[i][1] = name
 			records[i][2] = email
 			records[i][4] = updatedAt
@@ -153,6 +151,56 @@ func (u UserRepository) Update(id, name, email string) error {
 	defer writer.Flush()
 
 	if err := writer.WriteAll(records); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u UserRepository) Delete(id string) error {
+	file, err := os.Open("data.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	found := false
+	var updatedRecords [][]string
+	for i, record := range records {
+		if i == 0 {
+			updatedRecords = append(updatedRecords, record)
+			continue
+		}
+		if record[0] == id {
+			found = true
+			continue
+		}
+		updatedRecords = append(updatedRecords, record)
+	}
+
+	if !found {
+		return errors.New("user not found")
+	}
+
+	fileWrite, err := os.OpenFile("data.csv", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	if err != nil {
+		return err
+	}
+	defer fileWrite.Close()
+
+	writer := csv.NewWriter(fileWrite)
+	if err := writer.WriteAll(updatedRecords); err != nil {
+		return err
+	}
+
+	writer.Flush()
+	if err := writer.Error(); err != nil {
 		return err
 	}
 

@@ -81,3 +81,7 @@ func (u UserService) GetAll() ([]entities.User, error) {
 
 	return data, nil
 }
+
+func (u UserService) Delete(id string) error {
+	return u.userRepository.Delete(id)
+}
