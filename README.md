@@ -9,3 +9,16 @@ http://localhost:8080/users/[id]
 name: "nuevo nombre"
 
 email: "nuevo correo"
+
+### Método DELETE user 
+http://localhost:8080/users/[id]
+
+### Método POST user
+http://localhost:8080/users
+#### Parámetros
+id: vacío porque lo coloca automáticamente
+
+name: "nuevo nombre"
+
+email: "nuevo correo"
+
