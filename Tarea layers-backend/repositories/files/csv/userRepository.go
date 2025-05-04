@@ -110,6 +110,51 @@ func (u UserRepository) Create(user entities.User) error {
 }
 
 func (u UserRepository) Update(id, name, email string) error {
-	//TODO
+	file, err := os.Open("data.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	found := false
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if record[0] == id {
+			updatedAt := time.Now().UTC().Format(time.RFC3339)
+
+			records[i][1] = name
+			records[i][2] = email
+			records[i][4] = updatedAt
+			records[i][6] = "system"
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		return errors.New("user not found")
+	}
+
+	fileWrite, err := os.OpenFile("data.csv", os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer fileWrite.Close()
+
+	writer := csv.NewWriter(fileWrite)
+	defer writer.Flush()
+
+	if err := writer.WriteAll(records); err != nil {
+		return err
+	}
+
 	return nil
 }
