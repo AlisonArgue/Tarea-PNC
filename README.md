@@ -18,7 +18,7 @@ http://localhost:8080/users
 #### Parámetros
 id: vacío porque lo coloca automáticamente
 
-name: "nuevo nombre"
+name: "nombre"
 
-email: "nuevo correo"
+email: "correo"
 
