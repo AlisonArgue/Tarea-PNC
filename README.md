@@ -6,5 +6,6 @@ http://localhost:8080/users
 ### Método PUT user
 http://localhost:8080/users/<id>
 #### Parámetros
-name: <nuevo nombre>
-email: <nuevo correo>
+name: "nuevo nombre"
+
+email: "nuevo correo"
