@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"layersapi/controllers"
-	"layersapi/repositories/memory"
+	"layersapi/repositories/files/csv"
+	//"layersapi/repositories/memory"
 	"layersapi/services"
 	"net/http"
 )
 
 func main() {
 	r := mux.NewRouter()
-
-	userRepository := memory.NewUserRepository()
+	userRepository := csv.NewUserRepository()
+	//userRepository := memory.NewUserRepository()
 	userService := services.NewUserService(userRepository)
 	userController := controllers.NewUserController(*userService)
 

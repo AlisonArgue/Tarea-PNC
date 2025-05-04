@@ -15,7 +15,8 @@ func NewUserRepository() *UserRepository {
 }
 
 func (u UserRepository) GetAll() ([]entities.User, error) {
-	file, err := os.Open("data.csv")
+	//file, err := os.Open("data.csv")
+	file, err := os.Open("data/data.csv")
 	if err != nil {
 		return []entities.User{}, err
 	}
@@ -49,7 +50,8 @@ func (u UserRepository) GetAll() ([]entities.User, error) {
 }
 
 func (u UserRepository) GetById(id string) (entities.User, error) {
-	file, err := os.Open("data.csv")
+	//file, err := os.Open("data.csv")
+	file, err := os.Open("data/data.csv")
 	if err != nil {
 		return entities.User{}, err
 	}
@@ -83,7 +85,8 @@ func (u UserRepository) GetById(id string) (entities.User, error) {
 }
 
 func (u UserRepository) Create(user entities.User) error {
-	file, err := os.Open("data.csv")
+	//file, err := os.Open("data.csv")
+	file, err := os.OpenFile("data/data.csv", os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
 	}
@@ -93,9 +96,9 @@ func (u UserRepository) Create(user entities.User) error {
 	defer writer.Flush()
 
 	newUser := []string{
-		user.Id(),
-		user.Name(),
-		user.Email(),
+		user.Id,
+		user.Name,
+		user.Email,
 		user.Metadata.CreatedAt,
 		user.Metadata.UpdatedAt,
 		"webapp",
@@ -110,7 +113,8 @@ func (u UserRepository) Create(user entities.User) error {
 }
 
 func (u UserRepository) Update(id, name, email string) error {
-	file, err := os.Open("data.csv")
+	//file, err := os.Open("data.csv")
+	file, err := os.Open("data/data.csv")
 	if err != nil {
 		return err
 	}
@@ -141,7 +145,7 @@ func (u UserRepository) Update(id, name, email string) error {
 		return errors.New("user not found")
 	}
 
-	fileWrite, err := os.OpenFile("data.csv", os.O_WRONLY|os.O_TRUNC, 0644)
+	fileWrite, err := os.OpenFile("data/data.csv", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
@@ -158,7 +162,8 @@ func (u UserRepository) Update(id, name, email string) error {
 }
 
 func (u UserRepository) Delete(id string) error {
-	file, err := os.Open("data.csv")
+	//file, err := os.Open("data.csv")
+	file, err := os.Open("data/data.csv")
 	if err != nil {
 		return err
 	}
@@ -188,7 +193,7 @@ func (u UserRepository) Delete(id string) error {
 		return errors.New("user not found")
 	}
 
-	fileWrite, err := os.OpenFile("data.csv", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	fileWrite, err := os.OpenFile("data/data.csv", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
